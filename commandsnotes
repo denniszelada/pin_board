@@ -1,0 +1,55 @@
+rails new pinboard
+cd pinboard
+on gemfiles, check on rubygems.org:
+gem 'haml'
+gem 'bootstrap-sass'
+gem 'simple_form'
+bundle install
+rails g model Pin title:string description:text
+rake db:migrate
+rails g controller Pins
+on the pins controller add
+  def index
+  end
+
+on the routes file add
+  resources :pins
+  root "pins#index"
+
+on app/vies/pins add a new file and called index.html.haml
+
+on pins controller
+  def new
+    @pin = Pin.new
+  end
+
+  def create
+    @pin = Pin.new(pin_params)
+  end
+
+private
+  def pin_params
+    params.require(:pin).permit(:title, :description)
+  end
+
+Create a new file on app/views/pins called new.html.haml
+  %h1 New Form
+  = render 'form'
+  = link_to "Back"
+
+Create a new form on app/views/pins _form.html.haml
+
+User a generator for simple form
+  $ rails g simple_form:install --bootstrap
+
+= simple_form_for @pin, html: {multipart: true } do |f|
+  - if @pin.erros.any?
+    #errors
+    %h2
+    = pluralize(@pin.erros.count, "error")
+    prevented this Pin from saving
+    %ul
+      - @pin.errors.full_messages.each do |msg|
+        %li= msg
+  .form-group
+  #check the form for more info
