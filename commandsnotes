@@ -53,3 +53,9 @@ User a generator for simple form
         %li= msg
   .form-group
   #check the form for more info
+
+Add devise gems
+gem 'devise'
+$ rails g devise:install
+$ rails g devise:views
+$ rails g devise User
